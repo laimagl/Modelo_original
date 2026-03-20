@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -41,7 +41,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/documentation_options.js?v=a8e58a58"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -282,7 +282,7 @@
       
       
       
-      <li><a href="_sources/notebooks.ipynb" target="_blank"
+      <li><a href="_sources/" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -777,31 +777,55 @@ Datetime
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="n">go</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s1">&#39;notebook_connected&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mplfinance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpf</span>
 
-<span class="c1"># Tomamos solo un mes para no sobrecargar</span>
-<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;2020-03-01&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-01&#39;</span><span class="p">]</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;2020-03-01&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Candlestick</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-    <span class="nb">open</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BO&#39;</span><span class="p">],</span>
-    <span class="n">high</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BH&#39;</span><span class="p">],</span>
-    <span class="n">low</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BL&#39;</span><span class="p">],</span>
-    <span class="n">close</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span>
-<span class="p">)])</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;BO&#39;</span><span class="p">:</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BH&#39;</span><span class="p">:</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BL&#39;</span><span class="p">:</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BC&#39;</span><span class="p">:</span> <span class="s1">&#39;Close&#39;</span>
+<span class="p">})</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
-    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD - Velas de 5 minutos&#39;</span><span class="p">,</span>
-    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span>
-    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Precio&#39;</span><span class="p">,</span>
-    <span class="n">xaxis_rangeslider_visible</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">mpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;Close&#39;</span><span class="p">]],</span>
+         <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;candle&#39;</span><span class="p">,</span>
+         <span class="n">style</span><span class="o">=</span><span class="s1">&#39;charles&#39;</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD - Velas de 5 minutos | Marzo 2020&#39;</span><span class="p">,</span>
+         <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Precio&#39;</span><span class="p">,</span>
+         <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/fde471aca99a4037305b0672d5c353c6883f3c104ce37e4e18f1988c5bed6059.png" src="_images/fde471aca99a4037305b0672d5c353c6883f3c104ce37e4e18f1988c5bed6059.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;EUR/USD - Precio de Cierre | Bid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Fecha&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precio&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/236f12902677be5d35d37d18916765138151241a169e72fd769ef4884d135d74.png" src="_images/236f12902677be5d35d37d18916765138151241a169e72fd769ef4884d135d74.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -828,57 +852,72 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">x</span><span class="o">=</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">y</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD - Precio de Cierre Bid&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Fecha&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Precio&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">xaxis_rangeslider_visible</span><span class="o">=</span><span class="kc">False</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="p">)</span>
+
+<span class="nn">File ~\miniconda3\envs\ml_venv\lib\site-packages\_plotly_utils\importers.py:39,</span> in <span class="ni">relative_import.&lt;locals&gt;.__getattr__</span><span class="nt">(import_name)</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span>     <span class="n">class_module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">rel_module</span><span class="p">,</span> <span class="n">parent_name</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span>     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">class_module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">39</span> <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>     <span class="s2">&quot;module </span><span class="si">{__name__!r}</span><span class="s2"> has no attribute </span><span class="si">{name!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span>         <span class="n">name</span><span class="o">=</span><span class="n">import_name</span><span class="p">,</span> <span class="vm">__name__</span><span class="o">=</span><span class="n">parent_name</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="p">)</span>
+
+<span class="ne">AttributeError</span>: module &#39;plotly.io&#39; has no attribute &#39;Figure&#39;
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">plotly.subplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_subplots</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;2020-03-01&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-01&#39;</span><span class="p">]</span>
-<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;2020-03-01&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Rango&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BH&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BL&#39;</span><span class="p">]</span>
 <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Spread&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;AO&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BO&#39;</span><span class="p">]</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
-                    <span class="n">shared_xaxes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="n">subplot_titles</span><span class="o">=</span><span class="p">(</span>
-                        <span class="s1">&#39;Precio de Cierre | Bid&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Rango de Vela | Volatilidad (BH - BL)&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Spread | Liquidez (AO - BO)&#39;</span>
-                    <span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Precio de cierre</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Cierre Bid&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Precio de Cierre | Bid&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Precio&#39;</span><span class="p">)</span>
 
 <span class="c1"># Rango</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Rango&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Rango&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Rango&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Rango de Vela | Volatilidad (BH - BL)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Rango&#39;</span><span class="p">)</span>
 
 <span class="c1"># Spread</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Spread&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Spread&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Spread&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Spread | Liquidez (AO - BO)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Spread&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Fecha&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
-    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD - Análisis de 5 minutos | Marzo-Abril 2020&#39;</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>
-    <span class="n">xaxis_rangeslider_visible</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;EUR/USD - Análisis de 5 minutos | Marzo 2020&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/dc5139b2dd92f4152c18d4c3d1ba8e12c424e74bc2d90d31b6fc2772a1232d6e.png" src="_images/dc5139b2dd92f4152c18d4c3d1ba8e12c424e74bc2d90d31b6fc2772a1232d6e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -886,43 +925,33 @@ Datetime
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
 <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">shared_xaxes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="n">subplot_titles</span><span class="o">=</span><span class="p">(</span>
-                        <span class="s1">&#39;Precio de Cierre | Bid&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Retorno | %&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Retorno Logarítmico&#39;</span>
-                    <span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Cierre Bid&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Precio de cierre</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Precio de Cierre | Bid&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Precio&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Retorno %&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Retorno %</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Retorno | %&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Retorno %&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Retorno Log&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Retorno logarítmico</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Retorno Logarítmico&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Retorno Log&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Fecha&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
-    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD 2005-2020&#39;</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>
-    <span class="n">xaxis_rangeslider_visible</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;EUR/USD 2005-2020&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/d69e6f092cb6eac390483e0a0c0c12b63c7a784f7bc5225be74ebbc948883ef1.png" src="_images/d69e6f092cb6eac390483e0a0c0c12b63c7a784f7bc5225be74ebbc948883ef1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -931,39 +960,31 @@ Datetime
 <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Volatilidad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">shared_xaxes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="n">subplot_titles</span><span class="o">=</span><span class="p">(</span>
-                        <span class="s1">&#39;Precio de Cierre | Bid&#39;</span><span class="p">,</span>
-                        <span class="s1">&#39;Volatilidad Rodante | 1 hora (12 velas de 5 min)&#39;</span>
-                    <span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Cierre Bid&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Precio de cierre</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;royalblue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Precio de Cierre | Bid&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Precio&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Volatilidad&#39;</span><span class="p">],</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Volatilidad&#39;</span><span class="p">,</span>
-    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Volatilidad</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_plot</span><span class="p">[</span><span class="s1">&#39;Volatilidad&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volatilidad Rodante | 1 hora (12 velas de 5 min)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Volatilidad&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Fecha&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
-    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD - Volatilidad Rodante | Marzo 2020&#39;</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-    <span class="n">xaxis_rangeslider_visible</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">)</span>
-
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;EUR/USD - Volatilidad Rodante | Marzo 2020&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<img alt="_images/7a891ef73e7c27b0f40146331fd41c021909f24b8561d9355133e2029202ba89.png" src="_images/7a891ef73e7c27b0f40146331fd41c021909f24b8561d9355133e2029202ba89.png" />
 </div>
 </div>
-<p>#1.1 Tendencia</p>
+<p>#1.1. Tendencia</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
