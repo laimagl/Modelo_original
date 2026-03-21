@@ -1076,6 +1076,26 @@ Datetime
 <img alt="_images/edabacf047aecee9ccb503a705c798a461fbb7f5636df6fa6d6c2bb9854b1b3e.png" src="_images/edabacf047aecee9ccb503a705c798a461fbb7f5636df6fa6d6c2bb9854b1b3e.png" />
 </div>
 </div>
+<p>Comportamiento Cíclico</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Promedio anual del precio de cierre</span>
+<span class="n">annual</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">annual</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">annual</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Precio de Cierre-Bid EUR/USD por Año&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precio&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/64213309e9e4baffa7c1ad22ce491e2299a98f0d5b72fcbf9aef522ac400bce6.png" src="_images/64213309e9e4baffa7c1ad22ce491e2299a98f0d5b72fcbf9aef522ac400bce6.png" />
+</div>
+</div>
 <p>#1.3. Modelos irregulares</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1089,28 +1109,174 @@ Datetime
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;additive&#39;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.seasonal</span><span class="w"> </span><span class="kn">import</span> <span class="n">seasonal_decompose</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="c1"># Resamplea a mensual para que sea manejable</span>
+<span class="n">bc_monthly</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Descomposición</span>
+<span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">bc_monthly</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;additive&#39;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># Gráfica</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">411</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bc_monthly</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">412</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">trend</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Trend&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">trend</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tendencia&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">413</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">seasonal</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Seasonal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">seasonal</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Estacionalidad&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">414</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Irregular (Residual)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Residuo (Irregular)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Descomposición EUR/USD - Precio Cierre Bid&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/f8c6fc8c0cdf5f39b99e5d65f5c6c5be547ed1a8296f07647fb66362be1dc304.png" src="_images/f8c6fc8c0cdf5f39b99e5d65f5c6c5be547ed1a8296f07647fb66362be1dc304.png" />
+<img alt="_images/293db3c00d4f80b17e0009400b1b53d02c2538b0a51518b442d23ab1f240f11c.png" src="_images/293db3c00d4f80b17e0009400b1b53d02c2538b0a51518b442d23ab1f240f11c.png" />
+</div>
+</div>
+<p>Modelos de análisis de series temporales</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Retornos Log EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time index&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Retorno Log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Retorno Log&#39;)
+</pre></div>
+</div>
+<img alt="_images/14502e816346f9e81d29f010b3ddb7b6940ec6f70865c8b08dfdb929422c4362.png" src="_images/14502e816346f9e81d29f010b3ddb7b6940ec6f70865c8b08dfdb929422c4362.png" />
+</div>
+</div>
+<p>Camino Aleatorio</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">random_walk</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Camino Aleatorio EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time index&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Suma acumulada Retorno Log&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Suma acumulada Retorno Log&#39;)
+</pre></div>
+</div>
+<img alt="_images/75cca5ce0b8f96620833f0dda9d093317ca78ece7690736f128da72465b7339b.png" src="_images/75cca5ce0b8f96620833f0dda9d093317ca78ece7690736f128da72465b7339b.png" />
+</div>
+</div>
+<p>Modelos de tendencia</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Índice temporal</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Tendencia lineal ya calculada</span>
+<span class="n">fitted_trend_linear</span> <span class="o">=</span> <span class="n">trend_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Tendencia cuadrática con polyfit</span>
+<span class="n">coeffs_quadratic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">fitted_trend_quadratic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coeffs_quadratic</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+<span class="c1"># Grafica</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">[::</span><span class="mi">1000</span><span class="p">],</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[::</span><span class="mi">1000</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Datos observados&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fitted_trend_linear</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tendencia ajustada (lineal)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Modelo de tendencia lineal - EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Índice temporal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precio Cierre Bid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">[::</span><span class="mi">1000</span><span class="p">],</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[::</span><span class="mi">1000</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Datos observados&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fitted_trend_quadratic</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tendencia ajustada (cuadrática)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Modelo de tendencia cuadrática - EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Índice temporal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precio Cierre Bid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d6311848e4b7d3143322a6a1f8fe7f426084a767b528de2a69b2826f822973ce.png" src="_images/d6311848e4b7d3143322a6a1f8fe7f426084a767b528de2a69b2826f822973ce.png" />
+</div>
+</div>
+<p>Autocorrelación y autocorrelación parcial</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">lag</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">bc_acf</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lag</span><span class="p">:</span>
+    <span class="n">bc_acf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bc_daily</span><span class="o">.</span><span class="n">autocorr</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bc_acf</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation function for EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lag in terms of number of trading days&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Autocorrelation function&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c857170ddfa6b8733525b261276572ac6cd64ce859ab5edd455b71eca48aa113.png" src="_images/c857170ddfa6b8733525b261276572ac6cd64ce859ab5edd455b71eca48aa113.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">bc_daily</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation EUR/USD - BC&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">35</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">plot_acf</span><span class="p">(</span><span class="n">bc_daily</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation EUR/USD - BC&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;plot_acf&#39; is not defined
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 550x550 with 0 Axes&gt;
+</pre></div>
+</div>
 </div>
 </div>
 </section>
