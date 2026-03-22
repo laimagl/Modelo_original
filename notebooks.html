@@ -447,25 +447,35 @@ eurusd_news.csv
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;eurusd_minute.csv&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         Date   Time      BO      BH      BL      BC  BCh      AO      AH  \
-0  2005-01-02  18:29  1.3555  1.3555  1.3555  1.3555  0.0  1.3565  1.3565   
-1  2005-01-02  18:38  1.3555  1.3555  1.3555  1.3555  0.0  1.3565  1.3565   
-2  2005-01-02  18:51  1.3562  1.3562  1.3562  1.3562  0.0  1.3572  1.3572   
-3  2005-01-02  18:52  1.3560  1.3560  1.3560  1.3560  0.0  1.3570  1.3570   
-4  2005-01-02  18:55  1.3563  1.3563  1.3563  1.3563  0.0  1.3573  1.3573   
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         Date   Time      BO      BH      BL      BC     BCh      AO      AH  \
+0  2005-01-02  18:29  1.3555  1.3555  1.3555  1.3555  0.0000  1.3565  1.3565   
+1  2005-01-02  18:38  1.3555  1.3555  1.3555  1.3555  0.0000  1.3565  1.3565   
+2  2005-01-02  18:51  1.3562  1.3562  1.3562  1.3562  0.0000  1.3572  1.3572   
+3  2005-01-02  18:52  1.3560  1.3560  1.3560  1.3560  0.0000  1.3570  1.3570   
+4  2005-01-02  18:55  1.3563  1.3563  1.3563  1.3563  0.0000  1.3573  1.3573   
+5  2005-01-02  18:57  1.3562  1.3562  1.3562  1.3562  0.0000  1.3572  1.3572   
+6  2005-01-02   19:4  1.3564  1.3564  1.3564  1.3564  0.0000  1.3574  1.3574   
+7  2005-01-02   19:7  1.3565  1.3565  1.3564  1.3564  0.0001  1.3575  1.3575   
+8  2005-01-02  19:10  1.3564  1.3564  1.3564  1.3564  0.0000  1.3574  1.3574   
+9  2005-01-02  19:12  1.3564  1.3564  1.3564  1.3564  0.0000  1.3574  1.3574   
 
-       AL      AC  ACh  
-0  1.3565  1.3565  0.0  
-1  1.3565  1.3565  0.0  
-2  1.3572  1.3572  0.0  
-3  1.3570  1.3570  0.0  
-4  1.3573  1.3573  0.0  
+       AL      AC     ACh  
+0  1.3565  1.3565  0.0000  
+1  1.3565  1.3565  0.0000  
+2  1.3572  1.3572  0.0000  
+3  1.3570  1.3570  0.0000  
+4  1.3573  1.3573  0.0000  
+5  1.3572  1.3572  0.0000  
+6  1.3574  1.3574  0.0000  
+7  1.3574  1.3574  0.0001  
+8  1.3574  1.3574  0.0000  
+9  1.3574  1.3574  0.0000  
 (5618819, 12)
 </pre></div>
 </div>
@@ -657,82 +667,46 @@ Datetime
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_15m</span> <span class="o">=</span> <span class="n">df_time</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;15T&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
-    <span class="s1">&#39;BO&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BH&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BL&#39;</span><span class="p">:</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BC&#39;</span><span class="p">:</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BCh&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AO&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AH&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AL&#39;</span><span class="p">:</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AC&#39;</span><span class="p">:</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ACh&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span>
-<span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">df_15m</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df_15m</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(386066, 10)
-                         BO      BH      BL      BC     BCh      AO      AH  \
-Datetime                                                                      
-2005-01-02 18:15:00  1.3555  1.3555  1.3555  1.3555  0.0000  1.3565  1.3565   
-2005-01-02 18:30:00  1.3555  1.3555  1.3555  1.3555  0.0000  1.3565  1.3565   
-2005-01-02 18:45:00  1.3562  1.3563  1.3560  1.3562  0.0000  1.3572  1.3573   
-2005-01-02 19:00:00  1.3564  1.3565  1.3564  1.3564  0.0001  1.3574  1.3575   
-2005-01-02 19:15:00  1.3560  1.3564  1.3551  1.3551 -0.0004  1.3570  1.3574   
-
-                         AL      AC     ACh  
-Datetime                                     
-2005-01-02 18:15:00  1.3565  1.3565  0.0000  
-2005-01-02 18:30:00  1.3565  1.3565  0.0000  
-2005-01-02 18:45:00  1.3570  1.3572  0.0000  
-2005-01-02 19:00:00  1.3574  1.3574  0.0001  
-2005-01-02 19:15:00  1.3561  1.3561 -0.0004  
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_5m</span> <span class="o">=</span> <span class="n">df_time</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;5T&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
-    <span class="s1">&#39;BO&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BH&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BL&#39;</span><span class="p">:</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BC&#39;</span><span class="p">:</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;BCh&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AO&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AH&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AL&#39;</span><span class="p">:</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AC&#39;</span><span class="p">:</span> <span class="s1">&#39;last&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ACh&#39;</span><span class="p">:</span> <span class="s1">&#39;sum&#39;</span>
-<span class="p">})</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_5m</span> <span class="o">=</span> <span class="n">df_time</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;5T&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_5m</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1153890, 10)
-                         BO      BH      BL      BC  BCh      AO      AH  \
-Datetime                                                                   
-2005-01-02 18:25:00  1.3555  1.3555  1.3555  1.3555  0.0  1.3565  1.3565   
-2005-01-02 18:35:00  1.3555  1.3555  1.3555  1.3555  0.0  1.3565  1.3565   
-2005-01-02 18:50:00  1.3562  1.3562  1.3560  1.3560  0.0  1.3572  1.3572   
-2005-01-02 18:55:00  1.3563  1.3563  1.3562  1.3562  0.0  1.3573  1.3573   
-2005-01-02 19:00:00  1.3564  1.3564  1.3564  1.3564  0.0  1.3574  1.3574   
+                          BO       BH       BL       BC  BCh       AO  \
+Datetime                                                                
+2005-01-02 18:25:00  1.35550  1.35550  1.35550  1.35550  0.0  1.35650   
+2005-01-02 18:35:00  1.35550  1.35550  1.35550  1.35550  0.0  1.35650   
+2005-01-02 18:50:00  1.35610  1.35610  1.35610  1.35610  0.0  1.35710   
+2005-01-02 18:55:00  1.35625  1.35625  1.35625  1.35625  0.0  1.35725   
+2005-01-02 19:00:00  1.35640  1.35640  1.35640  1.35640  0.0  1.35740   
 
-                         AL      AC  ACh  
-Datetime                                  
-2005-01-02 18:25:00  1.3565  1.3565  0.0  
-2005-01-02 18:35:00  1.3565  1.3565  0.0  
-2005-01-02 18:50:00  1.3570  1.3570  0.0  
-2005-01-02 18:55:00  1.3572  1.3572  0.0  
-2005-01-02 19:00:00  1.3574  1.3574  0.0  
+                          AH       AL       AC  ACh  
+Datetime                                             
+2005-01-02 18:25:00  1.35650  1.35650  1.35650  0.0  
+2005-01-02 18:35:00  1.35650  1.35650  1.35650  0.0  
+2005-01-02 18:50:00  1.35710  1.35710  1.35710  0.0  
+2005-01-02 18:55:00  1.35725  1.35725  1.35725  0.0  
+2005-01-02 19:00:00  1.35740  1.35740  1.35740  0.0  
+                           BO       BH        BL       BC       BCh       AO  \
+Datetime                                                                       
+2020-04-29 23:35:00  1.087670  1.08774  1.087670  1.08771 -0.000020  1.08782   
+2020-04-29 23:40:00  1.087730  1.08774  1.087710  1.08774 -0.000010  1.08788   
+2020-04-29 23:45:00  1.087750  1.08776  1.087730  1.08775  0.000000  1.08790   
+2020-04-29 23:50:00  1.087735  1.08776  1.087715  1.08772  0.000015  1.08789   
+2020-04-29 23:55:00  1.087610  1.08762  1.087570  1.08760  0.000000  1.08777   
+
+                          AH       AL        AC      ACh  
+Datetime                                                  
+2020-04-29 23:35:00  1.08791  1.08782  1.087860 -0.00003  
+2020-04-29 23:40:00  1.08790  1.08785  1.087890  0.00000  
+2020-04-29 23:45:00  1.08790  1.08788  1.087900  0.00000  
+2020-04-29 23:50:00  1.08790  1.08786  1.087865  0.00002  
+2020-04-29 23:55:00  1.08777  1.08773  1.087750  0.00001  
 </pre></div>
 </div>
 </div>
@@ -773,7 +747,7 @@ Datetime
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">mplfinance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpf</span>
 
-<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;2020-03-01&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;2020-03-01&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-29&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 <span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
     <span class="s1">&#39;BO&#39;</span><span class="p">:</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span>
@@ -792,7 +766,30 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/4040fb69b688b9a8ea8fde639a9ccba96163941d4100c3db0587b22bf401c0d9.png" src="_images/4040fb69b688b9a8ea8fde639a9ccba96163941d4100c3db0587b22bf401c0d9.png" />
+<img alt="_images/248aa463eae34a23fc4a91cd1966d803654f30b0c78d0488835760c06f57acd5.png" src="_images/248aa463eae34a23fc4a91cd1966d803654f30b0c78d0488835760c06f57acd5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_5m</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;2020-04-29&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;BO&#39;</span><span class="p">:</span> <span class="s1">&#39;Open&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BH&#39;</span><span class="p">:</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BL&#39;</span><span class="p">:</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;BC&#39;</span><span class="p">:</span> <span class="s1">&#39;Close&#39;</span>
+<span class="p">})</span>
+
+<span class="n">mpf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[[</span><span class="s1">&#39;Open&#39;</span><span class="p">,</span> <span class="s1">&#39;High&#39;</span><span class="p">,</span> <span class="s1">&#39;Low&#39;</span><span class="p">,</span> <span class="s1">&#39;Close&#39;</span><span class="p">]],</span>
+         <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;candle&#39;</span><span class="p">,</span>
+         <span class="n">style</span><span class="o">=</span><span class="s1">&#39;charles&#39;</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s1">&#39;EUR/USD - Velas de 5 minutos | Marzo 2020&#39;</span><span class="p">,</span>
+         <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Precio&#39;</span><span class="p">,</span>
+         <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6db72fa89d2d86aed969a9a8f1a900552a5a0ddac076321460ac7466faf2072d.png" src="_images/6db72fa89d2d86aed969a9a8f1a900552a5a0ddac076321460ac7466faf2072d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -811,7 +808,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/25083983b2edc54bfb16a978ee2112cc081c55afec91846290d4a1e7b720e898.png" src="_images/25083983b2edc54bfb16a978ee2112cc081c55afec91846290d4a1e7b720e898.png" />
+<img alt="_images/d245a5beba38ba3e34e66c08657b4c0098cc444404c14327a200c9fedefef2c3.png" src="_images/d245a5beba38ba3e34e66c08657b4c0098cc444404c14327a200c9fedefef2c3.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -848,7 +845,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/226193584038569d325dd745e9f78c773db96787be8c3dd131fed6089698be01.png" src="_images/226193584038569d325dd745e9f78c773db96787be8c3dd131fed6089698be01.png" />
+<img alt="_images/e573fb0d23fbf74214378cf39452717ed176b29f484d3bb503bfc522bbbd4252.png" src="_images/e573fb0d23fbf74214378cf39452717ed176b29f484d3bb503bfc522bbbd4252.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -882,7 +879,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/0d9752188f42e541dffddfc7fcaeed5ebfbf458cb97473ed266381e4e682ab1d.png" src="_images/0d9752188f42e541dffddfc7fcaeed5ebfbf458cb97473ed266381e4e682ab1d.png" />
+<img alt="_images/63c783f8521e0e4a367ac8f36f91d24c839d67c4a57f345ebcc6ad9a8d1e5b70.png" src="_images/63c783f8521e0e4a367ac8f36f91d24c839d67c4a57f345ebcc6ad9a8d1e5b70.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -912,7 +909,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/907dace952cec0c7c0d5ffae3baa0a0e96ebfcba0e4e08cc3549bf315d56d009.png" src="_images/907dace952cec0c7c0d5ffae3baa0a0e96ebfcba0e4e08cc3549bf315d56d009.png" />
+<img alt="_images/88b09468f60ca97e3a93274885281a1d06c887b418b6214d025c7ec6bc35fa7d.png" src="_images/88b09468f60ca97e3a93274885281a1d06c887b418b6214d025c7ec6bc35fa7d.png" />
 </div>
 </div>
 <p>#1.1. Tendencia</p>
@@ -941,7 +938,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Trend model coefficient=-2.3350049813387192e-07 and intercept=1.4022649280598012
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Trend model coefficient=-2.335020739718395e-07 and intercept=1.4022674106390598
 </pre></div>
 </div>
 </div>
@@ -954,21 +951,8 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.04676493, -0.04676469, -0.04626446, ..., -0.04508174,
-       -0.04512151, -0.04516127])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\planeacion\miniconda3\envs\ml_venv\python.exe
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.04676741, -0.04676718, -0.04616694, ..., -0.0450824 ,
+       -0.04511217, -0.04523194])
 </pre></div>
 </div>
 </div>
@@ -986,7 +970,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d407f3ab13cbcceb9ddabcacd669f405734389ac0b5e8cec795d8ad34fb3169e.png" src="_images/d407f3ab13cbcceb9ddabcacd669f405734389ac0b5e8cec795d8ad34fb3169e.png" />
+<img alt="_images/1e3865679e589115d742ecc4ea01112e88a53d3598f3b9b5486668a6a401e49c.png" src="_images/1e3865679e589115d742ecc4ea01112e88a53d3598f3b9b5486668a6a401e49c.png" />
 </div>
 </div>
 <p>#1.2. Estacionalidad</p>
@@ -995,7 +979,7 @@ Datetime
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Resamplea residuos a mensual</span>
 <span class="n">residuals_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">residuals</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">df_5m</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-<span class="n">residuals_monthly</span> <span class="o">=</span> <span class="n">residuals_series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">residuals_monthly</span> <span class="o">=</span> <span class="n">residuals_series</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
 
 <span class="c1"># 2. Crea el DataFrame base</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">residuals_monthly</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
@@ -1033,14 +1017,14 @@ Datetime
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         Year Quarter  Quarterly Mean  Quarterly Standard Deviation
-2005-Q1  2005      Q1       -0.089259                      0.009213
-2005-Q2  2005      Q2       -0.135942                      0.038322
-2005-Q3  2005      Q3       -0.171482                      0.014702
-2005-Q4  2005      Q4       -0.197557                      0.010954
-2006-Q1  2006      Q1       -0.179486                      0.007760
+2005-Q1  2005      Q1       -0.090163                      0.009550
+2005-Q2  2005      Q2       -0.138756                      0.038245
+2005-Q3  2005      Q3       -0.171438                      0.013954
+2005-Q4  2005      Q4       -0.198709                      0.011792
+2006-Q1  2006      Q1       -0.180489                      0.008270
 </pre></div>
 </div>
-<img alt="_images/0ebdde236307d831a0de18360bd34e66cac52e8dbdfeb731f6adc0a0477fdaa9.png" src="_images/0ebdde236307d831a0de18360bd34e66cac52e8dbdfeb731f6adc0a0477fdaa9.png" />
+<img alt="_images/672f8818b6c6d1e506ea9ae04c9ba2989e2dc69cc34e797b682ee28256fb1209.png" src="_images/672f8818b6c6d1e506ea9ae04c9ba2989e2dc69cc34e797b682ee28256fb1209.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1049,13 +1033,13 @@ Datetime
 <span class="n">seasonal_sub_series_data</span><span class="p">[</span><span class="s1">&#39;Quarterly Standard Deviation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Quarterly Quarterly Standard Deviation of Residuals&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;CO2 concentratition&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precio de Cierre Bid&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">30</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/21b5a229333145f4c6de5b565492c245236b078c66bbc1baeb269074f9ac26d2.png" src="_images/21b5a229333145f4c6de5b565492c245236b078c66bbc1baeb269074f9ac26d2.png" />
+<img alt="_images/a77938548cf79d73cc06f3e3cb88799c21a8ec1ef246e613e6c60bdf6052392b.png" src="_images/a77938548cf79d73cc06f3e3cb88799c21a8ec1ef246e613e6c60bdf6052392b.png" />
 </div>
 </div>
 <p>Gráficos de cajas múltiples</p>
@@ -1073,14 +1057,14 @@ Datetime
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Residuos Precio Cierre-Bid&#39;)
 </pre></div>
 </div>
-<img alt="_images/edabacf047aecee9ccb503a705c798a461fbb7f5636df6fa6d6c2bb9854b1b3e.png" src="_images/edabacf047aecee9ccb503a705c798a461fbb7f5636df6fa6d6c2bb9854b1b3e.png" />
+<img alt="_images/1ec8ce15a825c4412d899c7e8d045ef7844b6f22c328a6863cbc053e8b6f11b9.png" src="_images/1ec8ce15a825c4412d899c7e8d045ef7844b6f22c328a6863cbc053e8b6f11b9.png" />
 </div>
 </div>
 <p>Comportamiento Cíclico</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Promedio anual del precio de cierre</span>
-<span class="n">annual</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">annual</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">annual</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">annual</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -1093,7 +1077,7 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/64213309e9e4baffa7c1ad22ce491e2299a98f0d5b72fcbf9aef522ac400bce6.png" src="_images/64213309e9e4baffa7c1ad22ce491e2299a98f0d5b72fcbf9aef522ac400bce6.png" />
+<img alt="_images/bfb60c7cb2bb4ef0cb08a022a2aa3c0fe094bd5c665ea9cde8d4bfa55c9b260a.png" src="_images/bfb60c7cb2bb4ef0cb08a022a2aa3c0fe094bd5c665ea9cde8d4bfa55c9b260a.png" />
 </div>
 </div>
 <p>#1.3. Modelos irregulares</p>
@@ -1103,6 +1087,8 @@ Datetime
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.seasonal</span><span class="w"> </span><span class="kn">import</span> <span class="n">seasonal_decompose</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.graphics.tsaplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_acf</span><span class="p">,</span> <span class="n">plot_pacf</span>
 </pre></div>
 </div>
 </div>
@@ -1115,7 +1101,7 @@ Datetime
 <span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.seasonal</span><span class="w"> </span><span class="kn">import</span> <span class="n">seasonal_decompose</span>
 
 <span class="c1"># Resamplea a mensual para que sea manejable</span>
-<span class="n">bc_monthly</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">bc_monthly</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
 
 <span class="c1"># Descomposición</span>
 <span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">bc_monthly</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;additive&#39;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
@@ -1145,25 +1131,32 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/293db3c00d4f80b17e0009400b1b53d02c2538b0a51518b442d23ab1f240f11c.png" src="_images/293db3c00d4f80b17e0009400b1b53d02c2538b0a51518b442d23ab1f240f11c.png" />
+<img alt="_images/edf3806d828c5bce0163a4703ad70e91a0f492677dfa180f51e15176904e8b09.png" src="_images/edf3806d828c5bce0163a4703ad70e91a0f492677dfa180f51e15176904e8b09.png" />
 </div>
 </div>
 <p>Modelos de análisis de series temporales</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;Retorno_log&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="n">g</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Retornos Log EUR/USD&#39;</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time index&#39;</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Retorno Log&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Precio de cierre EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time index&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Precio de cierre&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Retorno Log&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Precio de cierre&#39;)
 </pre></div>
 </div>
-<img alt="_images/14502e816346f9e81d29f010b3ddb7b6940ec6f70865c8b08dfdb929422c4362.png" src="_images/14502e816346f9e81d29f010b3ddb7b6940ec6f70865c8b08dfdb929422c4362.png" />
+<img alt="_images/dff9d4172828bd37f7c5c0e826c08352e9c3ca1323b964a4cf15bf2d7051bacb.png" src="_images/dff9d4172828bd37f7c5c0e826c08352e9c3ca1323b964a4cf15bf2d7051bacb.png" />
+<img alt="_images/0bdcb3331ed58564fe64daff2c443714a71e569e7235b54f9975a0a3843676bf.png" src="_images/0bdcb3331ed58564fe64daff2c443714a71e569e7235b54f9975a0a3843676bf.png" />
 </div>
 </div>
 <p>Camino Aleatorio</p>
@@ -1176,14 +1169,23 @@ Datetime
 <span class="n">g</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Camino Aleatorio EUR/USD&#39;</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time index&#39;</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Suma acumulada Retorno Log&#39;</span><span class="p">)</span>
+
+<span class="n">random_walk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">random_walk</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Camino Aleatorio EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time index&#39;</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Suma acumulada Precio de cierre&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Suma acumulada Retorno Log&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Suma acumulada Precio de cierre&#39;)
 </pre></div>
 </div>
-<img alt="_images/75cca5ce0b8f96620833f0dda9d093317ca78ece7690736f128da72465b7339b.png" src="_images/75cca5ce0b8f96620833f0dda9d093317ca78ece7690736f128da72465b7339b.png" />
+<img alt="_images/3360e5cfafe71edfdb4cece47cb12431f45664e27ad810ec4c247c224f808288.png" src="_images/3360e5cfafe71edfdb4cece47cb12431f45664e27ad810ec4c247c224f808288.png" />
+<img alt="_images/9ea981df051fd48cb5c64a3bc35adab573dc7caf8de1b4365b5ffda274be2991.png" src="_images/9ea981df051fd48cb5c64a3bc35adab573dc7caf8de1b4365b5ffda274be2991.png" />
 </div>
 </div>
 <p>Modelos de tendencia</p>
@@ -1224,57 +1226,473 @@ Datetime
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d6311848e4b7d3143322a6a1f8fe7f426084a767b528de2a69b2826f822973ce.png" src="_images/d6311848e4b7d3143322a6a1f8fe7f426084a767b528de2a69b2826f822973ce.png" />
+<img alt="_images/9596d952da5aefeec8c2676c62acc7f11b5a7e9e788ec90b183f4b443f357a5b.png" src="_images/9596d952da5aefeec8c2676c62acc7f11b5a7e9e788ec90b183f4b443f357a5b.png" />
 </div>
 </div>
 <p>Autocorrelación y autocorrelación parcial</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.graphics.tsaplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_acf</span>
 
-<span class="n">lag</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-<span class="n">bc_acf</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lag</span><span class="p">:</span>
-    <span class="n">bc_acf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bc_daily</span><span class="o">.</span><span class="n">autocorr</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-
+<span class="c1"># Diario</span>
+<span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bc_acf</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation function for EUR/USD&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lag in terms of number of trading days&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Autocorrelation function&#39;</span><span class="p">)</span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">bc_daily</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation EUR/USD - Diario&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># 5 minutos</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation EUR/USD - 5 minutos&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/c857170ddfa6b8733525b261276572ac6cd64ce859ab5edd455b71eca48aa113.png" src="_images/c857170ddfa6b8733525b261276572ac6cd64ce859ab5edd455b71eca48aa113.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 550x550 with 0 Axes&gt;
+</pre></div>
+</div>
+<img alt="_images/66f004ada2fc39d8a2ab7f6490f8bff708c5898b02b832b52f8930ed3cf265b7.png" src="_images/66f004ada2fc39d8a2ab7f6490f8bff708c5898b02b832b52f8930ed3cf265b7.png" />
+</div>
+</div>
+<p>Autocorrelación Parcial</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">));</span>
+<span class="n">plot_pacf</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">lags</span><span class="o">=</span><span class="mi">31</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 550x550 with 0 Axes&gt;
+</pre></div>
+</div>
+<img alt="_images/ac6af8870923792cbbf2d0e2f5a306b7486251077f3a7bd26b36466060ab1567.png" src="_images/ac6af8870923792cbbf2d0e2f5a306b7486251077f3a7bd26b36466060ab1567.png" />
+</div>
+</div>
+<p>Análisis de datos de series temporales</p>
+<p>Remuestreo de datos de series temporales</p>
+<p>La técnica de remuestreo se ha aplicado en las secciones anteriores para realizar análisis de tendencia, ciclo y estacionalidad, además de usarlas para comparar el comportamiento de autocorrelación en un nivel de agregación mayor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Se realiza el remuestreo para comparar el precio de cierre cada 5 minutos y diario.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bc_5min_window</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">][</span><span class="s1">&#39;2020-03-30&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-29&#39;</span><span class="p">]</span>
+<span class="n">bc_daily_window</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="s1">&#39;2020-03-30&#39;</span><span class="p">:</span><span class="s1">&#39;2020-04-29&#39;</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">bc_5min_window</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">bc_daily_window</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;EUR/USD - Precio cada 5 min (azul) &amp; Media Diaria (rojo) | Últimos 30 días&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Fecha&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Precio Cierre Bid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Precio Cierre Bid&#39;)
+</pre></div>
+</div>
+<img alt="_images/e127dfa9c02162bdc792419ead5d98cf4e53980d757831ca8dd4a08c02fe34a2.png" src="_images/e127dfa9c02162bdc792419ead5d98cf4e53980d757831ca8dd4a08c02fe34a2.png" />
+</div>
+</div>
+<p>Se compara el precio de cierre agrupado a nivel mensual y se compara con su desviación estándar</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Paso 1 - De 5 minutos a diario</span>
+<span class="n">df_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_daily</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="s1">&#39;BC&#39;</span><span class="p">]</span>
+<span class="n">df_daily</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Paso 2 - Agregar columna Month_Year</span>
+<span class="n">df_daily</span><span class="p">[</span><span class="s1">&#39;Month_Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_daily</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m-%Y&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_daily</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Paso 3 - Estadísticas mensuales</span>
+<span class="n">monthly_stats</span> <span class="o">=</span> <span class="n">df_daily</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Month_Year&#39;</span><span class="p">)[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">])</span>
+<span class="n">monthly_stats</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Paso 4 - Ordenar por año y mes</span>
+<span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;Month_Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%m-%Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">))</span>
+<span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;Month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;Month_Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%m-%Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">))</span>
+<span class="n">monthly_stats</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Month&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">monthly_stats</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Paso 5 - Grafica</span>
+<span class="n">monthly_stats</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;Month_Year&#39;</span><span class="p">]</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Media en eje izquierdo</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Media&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Media Precio Cierre Bid&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+
+<span class="c1"># Std en eje derecho</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Std&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Desviación Estándar&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelcolor</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;EUR/USD - Media mensual (azul) &amp; Desv. Estándar (rojo)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">monthly_stats</span><span class="p">),</span> <span class="mi">12</span><span class="p">),</span> <span class="n">monthly_stats</span><span class="p">[</span><span class="s1">&#39;Month_Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[::</span><span class="mi">12</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  BC Month_Year
+Date                           
+2005-01-02  1.355530    01-2005
+2005-01-03  1.348946    01-2005
+2005-01-04  1.337940    01-2005
+2005-01-05  1.326501    01-2005
+2005-01-06  1.320725    01-2005
+   Month_Year      mean    median       std  Year Month
+0     01-2005  1.312890  1.307208  0.014921  2005    01
+16    02-2005  1.301424  1.302746  0.015242  2005    02
+32    03-2005  1.319119  1.321176  0.018217  2005    03
+48    04-2005  1.293964  1.292261  0.007341  2005    04
+64    05-2005  1.268895  1.263558  0.015837  2005    05
+</pre></div>
+</div>
+<img alt="_images/68832fa0f786cd0a2d77eddc923066cc5d5b848ec5097a944ecb7f8b7fc32cf0.png" src="_images/68832fa0f786cd0a2d77eddc923066cc5d5b848ec5097a944ecb7f8b7fc32cf0.png" />
+</div>
+</div>
+<p>Estadísticos móviles</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Medias móviles</span>
+<span class="n">daily_moving_average</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">24</span><span class="o">*</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>      <span class="c1"># 1 día en periodos de 5 min</span>
+<span class="n">weekly_moving_average</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">7</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>   <span class="c1"># 7 días en periodos de 5 min</span>
+<span class="n">monthly_moving_average</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># 30 días en periodos de 5 min</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axarr</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Precio Cierre Bid EUR/USD - 5 min&#39;</span><span class="p">)</span>
+
+<span class="n">daily_moving_average</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Media Móvil Diaria&#39;</span><span class="p">)</span>
+
+<span class="n">weekly_moving_average</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axarr</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Media Móvil Semanal&#39;</span><span class="p">)</span>
+
+<span class="n">monthly_moving_average</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axarr</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Media Móvil Mensual&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7f199f0f80de94449c19a50469acb2bfa18ef413074d024c4fd43ae7ed6f1be9.png" src="_images/7f199f0f80de94449c19a50469acb2bfa18ef413074d024c4fd43ae7ed6f1be9.png" />
+</div>
+</div>
+<p>Procesos estacionarios</p>
+<p>Transformación de datos y ajustes</p>
+<p>Ajustes estacionales y de tendencia</p>
+<p>Diferenciación</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">Series</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">autocorrelation_plot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa</span><span class="w"> </span><span class="kn">import</span> <span class="n">stattools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">autocorrelation_plot</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">first_order_diff</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">first_order_diff</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Datetime
+2005-01-02 18:25:00         NaN
+2005-01-02 18:35:00    0.000000
+2005-01-02 18:50:00    0.000600
+2005-01-02 18:55:00    0.000150
+2005-01-02 19:00:00    0.000150
+                         ...   
+2020-04-29 23:35:00    0.000145
+2020-04-29 23:40:00    0.000030
+2020-04-29 23:45:00    0.000010
+2020-04-29 23:50:00   -0.000030
+2020-04-29 23:55:00   -0.000120
+Name: BC, Length: 1153890, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;BC&#39;</span><span class="p">);</span>
+<span class="n">first_order_diff</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;First-order differences of BC&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6f4c1d3767bf2270c1a7e2f82e7bb331a74d3864d390aaac12248d3d8bbf8dfb.png" src="_images/6f4c1d3767bf2270c1a7e2f82e7bb331a74d3864d390aaac12248d3d8bbf8dfb.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pandas.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">autocorrelation_plot</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
-<span class="n">plot_acf</span><span class="p">(</span><span class="n">bc_daily</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation EUR/USD - BC&#39;</span><span class="p">)</span>
+<span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">first_order_diff</span> <span class="o">=</span> <span class="n">bc_daily</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">autocorrelation_plot</span><span class="p">(</span><span class="n">bc_daily</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ACF of EUR/USD Close values&#39;</span><span class="p">)</span>
+<span class="n">autocorrelation_plot</span><span class="p">(</span><span class="n">first_order_diff</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ACF of first differences of EUR/USD Close values&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">35</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">bc_daily</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">plot_acf</span><span class="p">(</span><span class="n">bc_daily</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autocorrelation EUR/USD - BC&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;plot_acf&#39; is not defined
+<img alt="_images/98a29b212e798512c7bd085ae2eb8b6cdbb6f313df864274dec565cfa473465f.png" src="_images/98a29b212e798512c7bd085ae2eb8b6cdbb6f313df864274dec565cfa473465f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acf_BC</span><span class="p">,</span> <span class="n">confint_BC</span><span class="p">,</span> <span class="n">qstat_BC</span><span class="p">,</span> <span class="n">pvalues_BC</span> <span class="o">=</span> <span class="n">stattools</span><span class="o">.</span><span class="n">acf</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span>
+                                                                 <span class="n">nlags</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                                                                 <span class="n">qstat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 550x550 with 0 Axes&gt;
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">p_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pvalues_BC</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">p_val</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Null hypothesis is accepted at lag = </span><span class="si">{}</span><span class="s1"> for p-val = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p_val</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Null hypothesis is rejected at lag = </span><span class="si">{}</span><span class="s1"> for p-val = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p_val</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Null hypothesis is rejected at lag = 0 for p-val = 0.0
+Null hypothesis is rejected at lag = 1 for p-val = 0.0
+Null hypothesis is rejected at lag = 2 for p-val = 0.0
+Null hypothesis is rejected at lag = 3 for p-val = 0.0
+Null hypothesis is rejected at lag = 4 for p-val = 0.0
+Null hypothesis is rejected at lag = 5 for p-val = 0.0
+Null hypothesis is rejected at lag = 6 for p-val = 0.0
+Null hypothesis is rejected at lag = 7 for p-val = 0.0
+Null hypothesis is rejected at lag = 8 for p-val = 0.0
+Null hypothesis is rejected at lag = 9 for p-val = 0.0
+Null hypothesis is rejected at lag = 10 for p-val = 0.0
+Null hypothesis is rejected at lag = 11 for p-val = 0.0
+Null hypothesis is rejected at lag = 12 for p-val = 0.0
+Null hypothesis is rejected at lag = 13 for p-val = 0.0
+Null hypothesis is rejected at lag = 14 for p-val = 0.0
+Null hypothesis is rejected at lag = 15 for p-val = 0.0
+Null hypothesis is rejected at lag = 16 for p-val = 0.0
+Null hypothesis is rejected at lag = 17 for p-val = 0.0
+Null hypothesis is rejected at lag = 18 for p-val = 0.0
+Null hypothesis is rejected at lag = 19 for p-val = 0.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acf_first_diff</span><span class="p">,</span> <span class="n">confint_first_diff</span><span class="p">,</span>\
+<span class="n">qstat_first_diff</span><span class="p">,</span> <span class="n">pvalues_first_diff</span> <span class="o">=</span> <span class="n">stattools</span><span class="o">.</span><span class="n">acf</span><span class="p">(</span><span class="n">first_order_diff</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                                                     <span class="n">nlags</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                                                     <span class="n">qstat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                     <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">p_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pvalues_first_diff</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">p_val</span> <span class="o">&gt;</span> <span class="n">alpha</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Null hypothesis is accepted at lag = </span><span class="si">{}</span><span class="s1"> for p-val = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p_val</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Null hypothesis is rejected at lag = </span><span class="si">{}</span><span class="s1"> for p-val = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p_val</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Null hypothesis is rejected at lag = 0 for p-val = 1.2272822948081776e-45
+Null hypothesis is rejected at lag = 1 for p-val = 1.568828974253562e-44
+Null hypothesis is rejected at lag = 2 for p-val = 1.7686297922617214e-43
+Null hypothesis is rejected at lag = 3 for p-val = 3.3068872748673155e-43
+Null hypothesis is rejected at lag = 4 for p-val = 1.6412028195765364e-42
+Null hypothesis is rejected at lag = 5 for p-val = 4.3175352336063026e-42
+Null hypothesis is rejected at lag = 6 for p-val = 2.033537024347313e-42
+Null hypothesis is rejected at lag = 7 for p-val = 9.778278312981476e-42
+Null hypothesis is rejected at lag = 8 for p-val = 1.407041510332198e-41
+Null hypothesis is rejected at lag = 9 for p-val = 5.429461874674374e-41
+Null hypothesis is rejected at lag = 10 for p-val = 2.373243304169236e-40
+Null hypothesis is rejected at lag = 11 for p-val = 1.033925571044662e-39
+Null hypothesis is rejected at lag = 12 for p-val = 4.509629219379712e-39
+Null hypothesis is rejected at lag = 13 for p-val = 6.350361593407162e-39
+Null hypothesis is rejected at lag = 14 for p-val = 2.1602795118702662e-38
+Null hypothesis is rejected at lag = 15 for p-val = 5.464044066903778e-38
+Null hypothesis is rejected at lag = 16 for p-val = 9.493057276127367e-38
+Null hypothesis is rejected at lag = 17 for p-val = 2.936492691503753e-38
+Null hypothesis is rejected at lag = 18 for p-val = 1.0032505431373221e-37
+Null hypothesis is rejected at lag = 19 for p-val = 2.627003639545754e-37
+</pre></div>
+</div>
+</div>
+</div>
+<p>Podemos ver su comportamiento estacional y aplicar las pruebas de ACF y ACF parcial</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Precio diario EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">df_daily</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/20dc995b47c08e06aad64ec32675746961413a42aaef43baf50ee5a1ed3c132c.png" src="_images/20dc995b47c08e06aad64ec32675746961413a42aaef43baf50ee5a1ed3c132c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monthly_resample</span> <span class="o">=</span> <span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
+<span class="n">monthly_mean_bc</span> <span class="o">=</span> <span class="n">monthly_resample</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Shape of monthly mean EUR/USD dataset:&#39;</span><span class="p">,</span> <span class="n">monthly_mean_bc</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">monthly_mean_bc</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Monthly mean EUR/USD - Precio Cierre Bid&#39;</span><span class="p">)</span>
+<span class="n">monthly_mean_bc</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape of monthly mean EUR/USD dataset: (184,)
+Datetime
+2005-01-31    1.312525
+2005-02-28    1.301520
+2005-03-31    1.318475
+2005-04-30    1.293962
+2005-05-31    1.269107
+Freq: ME, Name: BC, dtype: float64
+</pre></div>
+</div>
+<img alt="_images/020fc8ea56c8a1c6629a6cc92f4482294f3144e7ebb2dc302bfda1500fa3e3ea.png" src="_images/020fc8ea56c8a1c6629a6cc92f4482294f3144e7ebb2dc302bfda1500fa3e3ea.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ACF of monthly mean EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">autocorrelation_plot</span><span class="p">(</span><span class="n">monthly_mean_bc</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/746546395b2d97e03e5f4b0fd61e111f4225c9fe7ce7111e89a57984901b68e3.png" src="_images/746546395b2d97e03e5f4b0fd61e111f4225c9fe7ce7111e89a57984901b68e3.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasonal_diff</span> <span class="o">=</span> <span class="n">monthly_mean_bc</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">seasonal_diff</span> <span class="o">=</span> <span class="n">seasonal_diff</span><span class="p">[</span><span class="mi">12</span><span class="p">:]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Seasonal differences EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">seasonal_diff</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1384834f4231e85f36894a20c4a5ea24161556dab33e84d3f8f1968592865e01.png" src="_images/1384834f4231e85f36894a20c4a5ea24161556dab33e84d3f8f1968592865e01.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;ACF of Seasonal differences EUR/USD&#39;</span><span class="p">)</span>
+<span class="n">autocorrelation_plot</span><span class="p">(</span><span class="n">seasonal_diff</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6b465d50790ee1823fe9dbc0e788df6f04956caaf984232a67a2d3ac8f79fb4a.png" src="_images/6b465d50790ee1823fe9dbc0e788df6f04956caaf984232a67a2d3ac8f79fb4a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa</span><span class="w"> </span><span class="kn">import</span> <span class="n">stattools</span>
+
+<span class="c1"># Ljung-Box sobre media mensual</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">pval_monthly_mean</span> <span class="o">=</span> <span class="n">stattools</span><span class="o">.</span><span class="n">acf</span><span class="p">(</span><span class="n">monthly_mean_bc</span><span class="p">,</span> <span class="n">nlags</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">qstat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Null hypothesis is rejected for lags:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pval_monthly_mean</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">))</span>
+
+<span class="c1"># Ljung-Box sobre diferencias estacionales</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">pval_seasonal_diff</span> <span class="o">=</span> <span class="n">stattools</span><span class="o">.</span><span class="n">acf</span><span class="p">(</span><span class="n">seasonal_diff</span><span class="p">,</span> <span class="n">nlags</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">qstat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Null hypothesis is rejected for lags:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pval_seasonal_diff</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Null hypothesis is rejected for lags: (array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=int64),)
+Null hypothesis is rejected for lags: (array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=int64),)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Prueba de Dickey-Fuller</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adf_result</span> <span class="o">=</span> <span class="n">stattools</span><span class="o">.</span><span class="n">adfuller</span><span class="p">(</span><span class="n">df_5m</span><span class="p">[</span><span class="s1">&#39;BC&#39;</span><span class="p">],</span> <span class="n">autolag</span><span class="o">=</span><span class="s1">&#39;AIC&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;p-val of the ADF test in EUR/USD monthly mean:&#39;</span><span class="p">,</span> <span class="n">adf_result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
